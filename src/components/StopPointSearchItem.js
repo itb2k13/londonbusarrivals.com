@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import Logo from '../bus.svg';
 import Haversine from './Haversine';
+import { LocationMarkerIcon } from '@heroicons/react/solid';
 
 function CompassPoint(c) {
 
@@ -71,7 +72,8 @@ function StopPointSearchItem({ item, geoLocation }) {
                     </div>
                 </div>
             </Link>
-            <div className="bg-gray-100 rounded-b text-sm text-center text-red-600">
+            <div className="flex bg-gray-100 rounded-b text-sm justify-center items-center text-red-600">
+                <LocationMarkerIcon className="h-4 w-4 mr-1" />
                 <Haversine distance={item.distance} geoLocation={geoLocation} coordinate={{ latitude: item.lat, longitude: item.lon }} />
             </div>
 
