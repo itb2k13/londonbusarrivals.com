@@ -6,6 +6,7 @@ function Input(props) {
 
         <DebounceInput
             minLength={3}
+            autoFocus
             value={props.value || ""}
             {...rest}
             debounceTimeout={1200}

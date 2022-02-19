@@ -32,7 +32,7 @@ function StopPointSearchItem({ item, geoLocation }) {
                 <div className="bg-white rounded-t border-b-8 border-red-600 h-14 items-center grid grid-cols-3">
                     <div></div>
                     <div>
-                        <img className="w-3/4 m-auto" src={Logo} alt="tfl-logo" /></div>
+                        <img className="w-14 m-auto" src={Logo} alt="tfl-logo" /></div>
 
                     {item.stopLetter &&
                         <div className="text-right">

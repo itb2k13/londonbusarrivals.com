@@ -4,10 +4,15 @@ import StopPointSearchItem from './StopPointSearchItem';
 function StopPointSearch(props) {
 
     const [result, setResult] = React.useState(null);
+    const [searchInput, setSearchInput] = React.useState(null);
+    const [longitude, setLongitude] = React.useState(null);
+    const [latitude, setLatitude] = React.useState(null);
 
     React.useEffect(() => {
 
-        if (props.searchInput) {
+        if (props.searchInput && props.searchInput !== searchInput) {
+
+            setSearchInput(props.searchInput);
 
             fetch(`https://api.tfl.gov.uk/StopPoint/Search/${props.searchInput}?modes=bus`)
                 .catch()
@@ -17,7 +22,10 @@ function StopPointSearch(props) {
                 });
         }
 
-        if (!props.searchInput && props.geoLocation?.latitude && props.geoLocation?.longitude) {
+        if (!props.searchInput && props.geoLocation?.latitude && props.geoLocation?.latitude !== latitude && props.geoLocation?.longitude && props.geoLocation?.longitude !== longitude) {
+
+            setLongitude(props.geoLocation?.longitude);
+            setLatitude(props.geoLocation?.latitude);
 
             fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${props.geoLocation?.latitude}&lon=${props.geoLocation?.longitude}&radius=250`)
                 .catch()
@@ -27,7 +35,7 @@ function StopPointSearch(props) {
                 });
         }
 
-    }, [props.searchInput, props.geoLocation]);
+    }, [props.searchInput, props.geoLocation, searchInput, latitude, longitude]);
 
     return (
         <>

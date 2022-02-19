@@ -31,7 +31,7 @@ function StopPoints(props) {
                 })}
             </div>
             <div className=' grid grid-cols-2 gap-1'>
-                {result?.children?.map(x => x.children[0])?.flat().map(function (d) {
+                {result?.children?.map(x => x.children)?.flat().map(function (d) {
                     return (d && d.stopLetter &&
                         <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                     )
