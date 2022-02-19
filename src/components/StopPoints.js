@@ -26,14 +26,14 @@ function StopPoints(props) {
             <div className='grid grid-cols-2 gap-1'>
                 {result?.children?.map(function (d) {
                     return (d && d.stopLetter &&
-                        <StopPointSearchItem item={d} geoLocation={geoLocation} />
+                        <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                     )
                 })}
             </div>
             <div className=' grid grid-cols-2 gap-1'>
                 {result?.children?.map(x => x.children[0])?.flat().map(function (d) {
                     return (d && d.stopLetter &&
-                        <StopPointSearchItem item={d} geoLocation={geoLocation} />
+                        <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                     )
                 })}
             </div>

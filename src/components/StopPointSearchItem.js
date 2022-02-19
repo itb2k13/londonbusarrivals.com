@@ -72,8 +72,8 @@ function StopPointSearchItem({ item, geoLocation }) {
                     </div>
                 </div>
             </Link>
-            <div className="flex bg-gray-100 rounded-b text-sm justify-center items-center text-red-600">
-                <LocationMarkerIcon className="h-4 w-4 mr-1" />
+            <div className="flex py-1 bg-gray-100 rounded-b text-sm justify-center items-center text-red-600">
+                {geoLocation?.timestamp && <LocationMarkerIcon className="h-4 w-4 mr-1" />}
                 <Haversine distance={item.distance} geoLocation={geoLocation} coordinate={{ latitude: item.lat, longitude: item.lon }} />
             </div>
 
