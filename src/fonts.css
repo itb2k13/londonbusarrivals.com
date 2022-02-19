@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'UKNumberPlate';
+    font-style: normal;
+    font-weight: 400;
+    src: local('UKNumberPlate'), url('./fonts/UKNumberPlate.woff') format('woff');
+}
+
+.font-plate {
+    font-family: 'UKNumberPlate';
+    background: yellow;
+    color: black;
+    border-radius: 3px;
+}
