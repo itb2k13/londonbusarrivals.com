@@ -1,5 +1,6 @@
 import React from 'react';
 import StopPointSearchItem from './StopPointSearchItem';
+import isValidPostCode from "uk-postcode-validator";
 
 function StopPointSearch(props) {
 
@@ -10,7 +11,26 @@ function StopPointSearch(props) {
 
     React.useEffect(() => {
 
-        if (props.searchInput && props.searchInput !== searchInput) {
+        if (props.searchInput && props.searchInput !== searchInput && isValidPostCode(props.searchInput || '')) {
+
+            setSearchInput(props.searchInput);
+
+            fetch(`https://api.postcodes.io/postcodes/${props.searchInput}`)
+                .catch()
+                .then(results => results.json())
+                .then(data => {
+                    fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${data?.result?.latitude}&lon=${data?.result?.longitude}&radius=${props.radius}`)
+                        .catch()
+                        .then(results => results.json())
+                        .then(data => {
+                            setResult(data);
+                        });
+                });
+
+
+        }
+
+        else if (props.searchInput && props.searchInput !== searchInput) {
 
             setSearchInput(props.searchInput);
 
@@ -22,12 +42,12 @@ function StopPointSearch(props) {
                 });
         }
 
-        if (!props.searchInput && props.geoLocation?.latitude && props.geoLocation?.latitude !== latitude && props.geoLocation?.longitude && props.geoLocation?.longitude !== longitude) {
+        else if (!props.searchInput && props.geoLocation?.latitude && props.geoLocation?.latitude !== latitude && props.geoLocation?.longitude && props.geoLocation?.longitude !== longitude) {
 
             setLongitude(props.geoLocation?.longitude);
             setLatitude(props.geoLocation?.latitude);
 
-            fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${props.geoLocation?.latitude}&lon=${props.geoLocation?.longitude}&radius=250`)
+            fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${props.geoLocation?.latitude}&lon=${props.geoLocation?.longitude}&radius=${props.radius}`)
                 .catch()
                 .then(results => results.json())
                 .then(data => {

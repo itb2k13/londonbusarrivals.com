@@ -25,11 +25,11 @@ function Search() {
       <div className="flex flex-col w-full">
         <div className="w-full ">
           <div className="text-white mb-2">Enter bus stop name or 5-digit bus stop code:</div>
-          <div className="absolute text-gray-400 right-0 mr-2 mt-4" onClick={() => { setSearchInput(""); setInputFocus(); }}><XIcon className="w-10" /></div>
+          <div className="absolute text-gray-400 right-0 mr-2 mt-4 cursor-pointer" onClick={() => { setSearchInput(""); setInputFocus(); }}><XIcon className="w-10" /></div>
           <Input value={searchInput} inputRef={inputRef} onChange={(e) => { setSearchInput(e.target.value); }} />
           <GeoLocationToggler showToggle={true} setGeoLocation={setGeoLocation} />
         </div>
-        <StopPointSearch searchInput={searchInput} geoLocation={geoLocation} />
+        <StopPointSearch searchInput={searchInput} geoLocation={geoLocation} radius={225} />
       </div>
     </div>
 
