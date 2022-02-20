@@ -23,14 +23,14 @@ function StopPoints(props) {
 
             <GeoLocationToggler showToggle={false} setGeoLocation={setGeoLocation} />
 
-            <div className='grid grid-cols-2 gap-1'>
+            <div className='grid grid-cols-2 gap-2'>
                 {result?.children?.map(function (d) {
                     return (d && d.stopLetter &&
                         <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                     )
                 })}
             </div>
-            <div className=' grid grid-cols-2 gap-1'>
+            <div className=' grid grid-cols-2 gap-2'>
                 {result?.children?.map(x => x.children)?.flat().map(function (d) {
                     return (d && d.stopLetter &&
                         <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
