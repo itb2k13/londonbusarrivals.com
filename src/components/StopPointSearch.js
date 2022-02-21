@@ -55,7 +55,7 @@ function StopPointSearch(props) {
                 });
         }
 
-    }, [props.searchInput, props.geoLocation, searchInput, latitude, longitude]);
+    }, [props.searchInput, props.geoLocation, props.radius, searchInput, latitude, longitude]);
 
     return (
         <>
