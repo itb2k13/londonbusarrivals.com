@@ -7,7 +7,8 @@
 
 .font-plate {
     font-family: 'UKNumberPlate';
+}
+
+.bg-yellow {
     background: yellow;
-    color: black;
-    border-radius: 3px;
 }

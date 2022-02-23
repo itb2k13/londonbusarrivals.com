@@ -6,6 +6,7 @@ import Arrivals from './pages/Arrivals';
 import FetchProgressBar from './components/FetchProgressBar';
 import GeoLocation from './components/GeoLocation';
 import { useStore } from './store/useStore';
+import Settings from './pages/Settings';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       <Routes >
         <Route path="/" element={<Search />} />
         <Route path="arrivals/:id" element={<Arrivals />} />
+        <Route path="settings" element={<Settings />} />
       </Routes>
     </div>
 

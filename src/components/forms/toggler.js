@@ -1,23 +1,24 @@
 
 import Toggle from 'react-toggle'
+import { useStore } from '../../store/useStore';
 import "react-toggle/style.css"
 
 function Toggler(props) {
 
-    const onChange = (e) => {
-        if (props.onChange)
-            props.onChange(e.target.checked);
-    }
+    const setSetting = useStore(state => state.setSetting);
+    const value = useStore(state => state[props.name] || false);
 
     return (
 
-        <label className="flex items-center justify-center text-white w-full py-2">
+        <label className="flex items-center justify-center w-full py-2">
             <Toggle
-                disabled={props.disabled}
-                defaultChecked={JSON.parse(props.defaultChecked)}
+                disabled={props.disabled || false}
+                defaultChecked={value}
                 icons={false}
-                onChange={onChange} />
-            <span className="ml-2">Use my location</span>
+                onChange={(e) => setSetting(props.name, e.target.checked)} />
+
+            {props.label && <span className="ml-2">{props.label}</span>}
+
         </label>
 
     );

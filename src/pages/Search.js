@@ -3,6 +3,8 @@ import React, { useRef } from 'react';
 import Input from '../components/forms/input';
 import GeoLocationToggler from '../components/GeoLocationToggler';
 import StopPointSearch from '../components/StopPointSearch';
+import SettingsMenuOption from '../components/menus/SettingsMenuOption';
+
 import { XIcon } from '@heroicons/react/solid';
 import { useStore } from '../store/useStore';
 
@@ -27,9 +29,13 @@ function Search() {
           <div className="text-white mb-2">Enter stop name, postcode or 5-digit bus stop code:</div>
           <div className="absolute text-gray-400 right-0 mr-2 mt-4 cursor-pointer" onClick={() => { setSearchInput(""); setInputFocus(); }}><XIcon className="w-10" /></div>
           <Input value={searchInput} inputRef={inputRef} onChange={(e) => { setSearchInput(e.target.value); }} />
-          <GeoLocationToggler />
+          <div className="text-white flex items-center ">
+            <GeoLocationToggler />
+            <SettingsMenuOption />
+          </div>
+
         </div>
-        <StopPointSearch radius={225} />
+        <StopPointSearch />
       </div>
     </div>
 

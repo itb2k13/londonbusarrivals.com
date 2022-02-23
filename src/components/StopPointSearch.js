@@ -11,6 +11,8 @@ function StopPointSearch(props) {
     const [latitude, setLatitude] = React.useState(null);
     const geoLocation = useStore(state => state.geoLocation);
     const newSearchInput = useStore(state => state.searchInput);
+    const radius = useStore(state => state.MaxSearchRadius);
+    const maxSearchResults = useStore(state => state.MaxSearchResults);
 
     React.useEffect(() => {
 
@@ -22,7 +24,7 @@ function StopPointSearch(props) {
                 .catch()
                 .then(results => results.json())
                 .then(data => {
-                    fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${data?.result?.latitude}&lon=${data?.result?.longitude}&radius=${props.radius}`)
+                    fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${data?.result?.latitude}&lon=${data?.result?.longitude}&radius=${radius}`)
                         .catch()
                         .then(results => results.json())
                         .then(data => {
@@ -33,11 +35,11 @@ function StopPointSearch(props) {
 
         }
 
-        else if (newSearchInput && newSearchInput !== searchInput) {
+        else if (newSearchInput && (newSearchInput !== searchInput)) {
 
             setSearchInput(newSearchInput);
 
-            fetch(`https://api.tfl.gov.uk/StopPoint/Search/${newSearchInput}?modes=bus`)
+            fetch(`https://api.tfl.gov.uk/StopPoint/Search/${newSearchInput}?modes=bus` + (maxSearchResults > 0 ? `&maxResults=${maxSearchResults}` : ''))
                 .catch()
                 .then(results => results.json())
                 .then(data => {
@@ -50,7 +52,7 @@ function StopPointSearch(props) {
             setLongitude(geoLocation?.longitude);
             setLatitude(geoLocation?.latitude);
 
-            fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${geoLocation?.latitude}&lon=${geoLocation?.longitude}&radius=${props.radius}`)
+            fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${geoLocation?.latitude}&lon=${geoLocation?.longitude}&radius=${radius}`)
                 .catch()
                 .then(results => results.json())
                 .then(data => {
@@ -58,7 +60,7 @@ function StopPointSearch(props) {
                 });
         }
 
-    }, [geoLocation, props.radius, searchInput, latitude, longitude, newSearchInput]);
+    }, [geoLocation, radius, searchInput, latitude, longitude, newSearchInput, maxSearchResults]);
 
     return (
         <>

@@ -5,13 +5,13 @@ import { persist } from "zustand/middleware"
 export const useStore = create(persist(
     (set, get) => ({
         geoLocation: {},
-        enableGeo: false,
+        MaxSearchRadius: 225,
         searchInput: "",
         setGeolocation: (geoLocation) => set({ geoLocation }),
         clearGeolocation: (geoLocation) => set({ geoLocation }),
-        setEnableGeo: (enableGeo) => set({ enableGeo }),
         setSearchInput: (searchInput) => set({ searchInput }),
-        setStopPoint: (stopPoint) => set({ stopPoint })
+        setStopPoint: (stopPoint) => set({ stopPoint }),
+        setSetting: (key, input) => set((state) => void (state[key] = input)),
     }),
     {
         name: "geoLocation"

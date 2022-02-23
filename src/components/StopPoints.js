@@ -6,6 +6,7 @@ function StopPoints(props) {
 
     const [result, setResult] = React.useState(null);
     const geoLocation = useStore(state => state.geoLocation);
+    const showRailEntrances = useStore(state => state.ShowRailEntrances || false);
     const setStopPoint = useStore(state => state.setStopPoint);
 
     React.useEffect(() => {
@@ -27,12 +28,11 @@ function StopPoints(props) {
             <div className='grid grid-cols-2 gap-2'>
                 {result?.children?.map(function (d) {
 
-                    return (d && d.stopLetter &&
+                    return (d && d.stopLetter && (d.stopType !== "NaptanRailEntrance" || showRailEntrances) &&
                         <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                     )
                 })}
-            </div>
-            <div className=' grid grid-cols-2 gap-2'>
+
                 {result?.children?.map(x => x.children)?.flat().map(function (d) {
 
                     return (d && d.stopLetter &&
