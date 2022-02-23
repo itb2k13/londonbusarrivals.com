@@ -1,13 +1,22 @@
 import React, { useEffect } from 'react';
 import useGeolocation from 'react-hook-geolocation';
+import { useStore } from '../store/useStore';
 
-function GeoLocation({ setGeoLocation }) {
+function GeoLocation() {
 
     const geo = useGeolocation({});
+    const setGeoLocation = useStore(state => state.setGeolocation);
+    const clearGeolocation = useStore(state => state.clearGeolocation);
+    const enableGeo = useStore(state => state.enableGeo);
 
     useEffect(() => {
-        setGeoLocation(geo);
-    }, [geo, setGeoLocation]);
+
+        if (enableGeo)
+            setGeoLocation(geo);
+        else
+            clearGeolocation({ timestamp: null });
+
+    }, [geo, setGeoLocation, clearGeolocation, enableGeo]);
 
     return (
         <></>

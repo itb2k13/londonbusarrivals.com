@@ -1,21 +1,24 @@
 import React from 'react';
 import StopPointSearchItem from './StopPointSearchItem';
 import isValidPostCode from "uk-postcode-validator";
+import { useStore } from '../store/useStore';
 
 function StopPointSearch(props) {
 
     const [result, setResult] = React.useState(null);
-    const [searchInput, setSearchInput] = React.useState(null);
+    const [searchInput, setSearchInput] = React.useState("");
     const [longitude, setLongitude] = React.useState(null);
     const [latitude, setLatitude] = React.useState(null);
+    const geoLocation = useStore(state => state.geoLocation);
+    const newSearchInput = useStore(state => state.searchInput);
 
     React.useEffect(() => {
 
-        if (props.searchInput && props.searchInput !== searchInput && isValidPostCode(props.searchInput || '')) {
+        if (newSearchInput !== searchInput && isValidPostCode(newSearchInput || '')) {
 
-            setSearchInput(props.searchInput);
+            setSearchInput(newSearchInput);
 
-            fetch(`https://api.postcodes.io/postcodes/${props.searchInput}`)
+            fetch(`https://api.postcodes.io/postcodes/${newSearchInput}`)
                 .catch()
                 .then(results => results.json())
                 .then(data => {
@@ -30,11 +33,11 @@ function StopPointSearch(props) {
 
         }
 
-        else if (props.searchInput && props.searchInput !== searchInput) {
+        else if (newSearchInput && newSearchInput !== searchInput) {
 
-            setSearchInput(props.searchInput);
+            setSearchInput(newSearchInput);
 
-            fetch(`https://api.tfl.gov.uk/StopPoint/Search/${props.searchInput}?modes=bus`)
+            fetch(`https://api.tfl.gov.uk/StopPoint/Search/${newSearchInput}?modes=bus`)
                 .catch()
                 .then(results => results.json())
                 .then(data => {
@@ -42,12 +45,12 @@ function StopPointSearch(props) {
                 });
         }
 
-        else if (!props.searchInput && props.geoLocation?.latitude && props.geoLocation?.latitude !== latitude && props.geoLocation?.longitude && props.geoLocation?.longitude !== longitude) {
+        else if (!newSearchInput && geoLocation?.latitude && geoLocation?.latitude !== latitude && geoLocation?.longitude && geoLocation?.longitude !== longitude) {
 
-            setLongitude(props.geoLocation?.longitude);
-            setLatitude(props.geoLocation?.latitude);
+            setLongitude(geoLocation?.longitude);
+            setLatitude(geoLocation?.latitude);
 
-            fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${props.geoLocation?.latitude}&lon=${props.geoLocation?.longitude}&radius=${props.radius}`)
+            fetch(`https://api.tfl.gov.uk/StopPoint?stopTypes=NaptanPublicBusCoachTram&lat=${geoLocation?.latitude}&lon=${geoLocation?.longitude}&radius=${props.radius}`)
                 .catch()
                 .then(results => results.json())
                 .then(data => {
@@ -55,7 +58,7 @@ function StopPointSearch(props) {
                 });
         }
 
-    }, [props.searchInput, props.geoLocation, props.radius, searchInput, latitude, longitude]);
+    }, [geoLocation, props.radius, searchInput, latitude, longitude, newSearchInput]);
 
     return (
         <>
@@ -64,14 +67,14 @@ function StopPointSearch(props) {
                 {result?.matches?.filter(x => x.modes?.includes("bus"))?.sort((a, b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
                     .map(function (d) {
                         return (
-                            <StopPointSearchItem key={d.id} item={d} geoLocation={props.geoLocation} />
+                            <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                         )
                     })}
 
                 {result?.stopPoints?.sort((a, b) => (a.distance > b.distance) ? 1 : ((b.distance > a.distance) ? -1 : 0))
                     .map((d) => {
                         return (
-                            <StopPointSearchItem key={d.id} item={d} geoLocation={props.geoLocation} />
+                            <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                         )
                     })}
             </div>

@@ -1,11 +1,12 @@
 import React from 'react';
-import GeoLocationToggler from './GeoLocationToggler';
 import StopPointSearchItem from './StopPointSearchItem';
+import { useStore } from '../store/useStore';
 
 function StopPoints(props) {
 
     const [result, setResult] = React.useState(null);
-    const [geoLocation, setGeoLocation] = React.useState({});
+    const geoLocation = useStore(state => state.geoLocation);
+    const setStopPoint = useStore(state => state.setStopPoint);
 
     React.useEffect(() => {
 
@@ -14,17 +15,18 @@ function StopPoints(props) {
                 .then(results => results.json())
                 .then(data => {
                     setResult(data);
+                    setStopPoint(data);
                 });
         }
-    }, [props.stopPointId]);
+
+    }, [props.stopPointId, setStopPoint]);
 
     return (
         <div className="">
 
-            <GeoLocationToggler showToggle={false} setGeoLocation={setGeoLocation} />
-
             <div className='grid grid-cols-2 gap-2'>
                 {result?.children?.map(function (d) {
+
                     return (d && d.stopLetter &&
                         <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                     )
@@ -32,6 +34,7 @@ function StopPoints(props) {
             </div>
             <div className=' grid grid-cols-2 gap-2'>
                 {result?.children?.map(x => x.children)?.flat().map(function (d) {
+
                     return (d && d.stopLetter &&
                         <StopPointSearchItem key={d.id} item={d} geoLocation={geoLocation} />
                     )

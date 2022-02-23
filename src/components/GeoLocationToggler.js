@@ -1,24 +1,16 @@
 import React from 'react';
-import useLocalStorage from 'react-use-localstorage';
 import Toggler from '../components/forms/toggler';
-import GeoLocation from '../components/GeoLocation';
+import { useStore } from '../store/useStore';
 
-function GeoLocationToggler({ setGeoLocation, showToggle }) {
+function GeoLocationToggler() {
 
-    const [enableGeo, setEnableGeo] = useLocalStorage("enableGeo", false);
+    const setEnableGeo = useStore(state => state.setEnableGeo);
+    const enableGeo = useStore(state => state.enableGeo);
+    const searchInput = useStore(state => state.searchInput) ? true : false;
 
     return (
         <div>
-
-            {showToggle &&
-                <Toggler defaultChecked={enableGeo} onChange={setEnableGeo} />
-            }
-
-            {JSON.parse(enableGeo) ?
-                <GeoLocation setGeoLocation={setGeoLocation} />
-                : ''
-            }
-
+            <Toggler disabled={searchInput} defaultChecked={enableGeo} onChange={setEnableGeo} />
         </div>
     )
 

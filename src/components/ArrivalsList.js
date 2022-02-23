@@ -2,10 +2,13 @@ import React from 'react';
 import moment from 'moment';
 import NumberPlate from './NumberPlate';
 import { ChevronRightIcon } from '@heroicons/react/outline';
+import { useStore } from '../store/useStore';
+
 
 function ArrivalsList(props) {
 
     const [result, setResult] = React.useState(null);
+    const stopPoint = useStore(state => state.stopPoint);
 
     React.useEffect(() => {
 
@@ -21,6 +24,14 @@ function ArrivalsList(props) {
 
     return (
         <div className="text-white pt-2">
+
+            {stopPoint?.commonName && result?.length > 0 &&
+                <div className='mb-2 text-xl'>Next arrivals at <span className="text-green-300">{stopPoint.commonName}</span></div>
+            }
+
+            {stopPoint?.commonName && !result?.length &&
+                <div className='mb-2 text-xl'>TFL arrival info found for <span className="text-green-300">{stopPoint.commonName}</span> is not available</div>
+            }
 
             {result?.sort((a, b) => (a.timeToStation > b.timeToStation) ? 1 : ((b.timeToStation > a.timeToStation) ? -1 : 0))
                 .map(function (d) {
