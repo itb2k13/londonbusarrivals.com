@@ -11,7 +11,7 @@
         "url": "https://github.com/itb2k13/londonbusarrivals.com.git"
     },
     "homepage": "",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "private": true,
     "dependencies": {
         "@heroicons/react": "^1.0.5",
@@ -28,6 +28,7 @@
         "react-range": "^1.8.12",
         "react-router-dom": "^6.2.1",
         "react-scripts": "5.0.0",
+        "react-timers-hooks": "^1.1.1",
         "react-toggle": "^4.1.2",
         "uk-postcode-validator": "^1.1.1",
         "web-vitals": "^2.1.4",
