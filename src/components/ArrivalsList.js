@@ -2,14 +2,24 @@ import React from 'react';
 import NumberPlate from './NumberPlate';
 import { ChevronRightIcon } from '@heroicons/react/outline';
 import { useStore } from '../store/useStore';
+import { useInterval } from "react-timers-hooks";
 import ArrivalTime from './ArrivalTime';
+import StopPointLabel from './StopPointLabel';
 
+function findNextArrival(data) {
+    return data?.sort((a, b) => (a.timeToStation > b.timeToStation) ? 1 : ((b.timeToStation > a.timeToStation) ? -1 : 0))?.find(x => x) || null;
+}
 
 function ArrivalsList(props) {
 
+    const [timerCount, setTimerCount] = React.useState(0);
+    const [nextArrival, setNextArrival] = React.useState(0);
     const [result, setResult] = React.useState(null);
     const stopPoint = useStore(state => state.stopPoint);
     const maxArrivalTime = parseInt(useStore(state => state.MaxArrivalTime) || 0);
+
+    useInterval(() => { if ((!nextArrival || nextArrival.timeToStation <= 60) && timerCount <= 50) setTimerCount(timerCount + 1); }, 5000);
+    useInterval(() => { if ((!nextArrival || nextArrival.timeToStation > 60) && timerCount <= 50) setTimerCount(timerCount + 1); }, 60000);
 
     React.useEffect(() => {
 
@@ -19,19 +29,31 @@ function ArrivalsList(props) {
                 .then(results => results.json())
                 .then(data => {
                     setResult(data || []);
+                    setNextArrival(findNextArrival(data || []));
                 });
         }
-    }, [props.naptanCode]);
+
+    }, [props.naptanCode, timerCount]);
 
     return (
         <div className="text-white pt-2">
 
-            {stopPoint?.commonName && result?.length > 0 &&
-                <div className='mb-2 text-xl'>Next arrivals at <span className="text-green-300">{stopPoint.commonName}</span></div>
+            {nextArrival?.platformName && result?.length > 0 &&
+                <div className='mb-2'>
+                    <span>Next arrivals at </span>
+                    <span className="text-green-300">{nextArrival.stationName} </span>
+
+                    {nextArrival?.modeName === "bus" &&
+                        <StopPointLabel stopLetter={nextArrival.platformName} />
+                    }
+
+                </div>
             }
 
-            {stopPoint?.commonName && !result?.length &&
-                <div className='mb-2 text-xl'>TFL arrival info found for <span className="text-green-300">{stopPoint.commonName}</span> is not available</div>
+            {!result?.length &&
+                <div className='mb-2 text-xl flex justify-center'>
+                    No arrivals info found
+                </div>
             }
 
             {result?.filter(x => (x.timeToStation <= maxArrivalTime * 60) || maxArrivalTime === 0)
@@ -45,8 +67,15 @@ function ArrivalsList(props) {
 
                                     <div className="pb-1 flex flex-row items-center">
                                         <div className="  text-sm  w-60 flex flex-col items-center">
-                                            <div className="font-plate border border-gray-400 text-xl bg-black rounded p-1 w-10 h-10 mb-1 justify-center flex items-center">{d.lineName}</div>
-                                            <div>{d.modeName === "bus" && <NumberPlate registration={d.vehicleId} />}</div>
+                                            {d.modeName === "bus" &&
+                                                <>
+                                                    <div className="font-plate border border-gray-400 text-xl bg-black rounded p-1 w-10 h-10 mb-1 justify-center flex items-center">{d.lineName}</div>
+                                                    <div>{d.modeName === "bus" && <NumberPlate registration={d.vehicleId} />}</div>
+                                                </>
+                                            }
+                                            {d.modeName !== "bus" &&
+                                                <span>{d.lineName}</span>
+                                            }
                                             <div><ArrivalTime timeToStation={d.timeToStation} /></div>
                                         </div>
                                         <div className="text-sm w-full">

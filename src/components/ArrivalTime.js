@@ -7,10 +7,15 @@ function getColor(timeToStation) {
     return 'text-gray-300';
 }
 
+function printTime(timeToStation) {
+    if (timeToStation <= 60) return `${timeToStation} seconds`;
+    else return moment.duration({ "seconds": timeToStation }).humanize();
+}
+
 function ArrivalTime({ timeToStation }) {
 
     return (
-        <span className={`${getColor(timeToStation)}`}>{moment.duration({ "seconds": timeToStation }).humanize()}</span>
+        <span className={`${getColor(timeToStation)}`}>in {printTime(timeToStation)}</span>
     )
 
 }

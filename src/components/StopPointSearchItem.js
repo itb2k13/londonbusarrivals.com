@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Logo from '../bus.svg';
 import Haversine from './Haversine';
 import { LocationMarkerIcon } from '@heroicons/react/solid';
+import StopPointLabel from './StopPointLabel';
 
 function CompassPoint(c) {
 
@@ -32,13 +33,11 @@ function StopPointSearchItem({ item, geoLocation }) {
                 <div className="bg-white rounded-t border-b-8 border-red-600 h-14 items-center grid grid-cols-3">
                     <div></div>
                     <div>
-                        <img className="w-14 m-auto" src={Logo} alt="tfl-logo" /></div>
-
-                    {item.stopLetter &&
-                        <div className="text-right">
-                            <button className="text-center shadow-lg hover:bg-red-500 focus:shadow-outline bg-red-600 text-white  w-10 h-10 mr-1 cursor-pointer rounded-full border-2 border-red-400 " >{item.stopLetter}</button>
-                        </div>
-                    }
+                        <img className="w-14 m-auto" src={Logo} alt="tfl-logo" />
+                    </div>
+                    <div className="text-right">
+                        <StopPointLabel stopLetter={item.stopLetter} />
+                    </div>
                 </div>
 
                 <div className=" text-white text-center justify-center  border-white  flex-grow flex flex-col items-center">
