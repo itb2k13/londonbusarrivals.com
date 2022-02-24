@@ -1,7 +1,17 @@
 {
     "name": "bus-arrivals-london",
+    "author": {
+        "name": "Steph Smith",
+        "email": "steph@stephsmith.online",
+        "url": "https://stephsmith.online/"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/itb2k13/londonbusarrivals.com.git"
+    },
     "homepage": "",
-    "version": "0.1.0",
+    "version": "2.0.2",
     "private": true,
     "dependencies": {
         "@heroicons/react": "^1.0.5",
@@ -25,7 +35,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "npm version patch --force && react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "deploy": "cross-env s3-deploy './build/**' --cwd './build/' --region eu-west-1 --bucket londonbusarrivals.com --distId E1RQEEC5WLPCH1 --invalidate '/*'",
