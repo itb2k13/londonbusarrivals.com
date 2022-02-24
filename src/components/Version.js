@@ -1,9 +1,10 @@
 import React from 'react';
+import pkg from '../../package.json';
 
 function Version() {
 
     return (
-        <span>1.0.0</span>
+        <span>{pkg.version}</span>
     )
 
 }
