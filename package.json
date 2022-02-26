@@ -11,7 +11,7 @@
         "url": "https://github.com/itb2k13/londonbusarrivals.com.git"
     },
     "homepage": "",
-    "version": "2.0.4",
+    "version": "2.0.5",
     "private": true,
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.3.0",
