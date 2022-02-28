@@ -5,6 +5,17 @@
     src: local('UKNumberPlate'), url('./fonts/UKNumberPlate.woff') format('woff');
 }
 
+@font-face {
+    font-family: 'johnstonitcstd';
+    font-style: normal;
+    font-weight: 400;
+    src: local('johnstonitcstd'), url('./fonts/johnston-itc-std-medium.otf') format('opentype');
+}
+
+.font-tfl {
+    font-family: 'johnstonitcstd';
+}
+
 .font-plate {
     font-family: 'UKNumberPlate';
 }

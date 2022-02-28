@@ -41,7 +41,7 @@ function StopPointSearchItem({ item, geoLocation }) {
                 </div>
 
                 <div className=" text-white text-center justify-center  border-white  flex-grow flex flex-col items-center">
-                    <div className="bg-gray-700 w-full flex justify-center items-center h-20 p-2">
+                    <div className="font-tfl bg-gray-700 w-full flex justify-center items-center h-20 p-2">
 
                         {item.commonName || item.name}
 

@@ -24,6 +24,7 @@ function ArrivalsList(props) {
     React.useEffect(() => {
 
         if (props.naptanCode) {
+
             fetch(`https://api.tfl.gov.uk/StopPoint/${props.naptanCode}/Arrivals`)
                 .catch()
                 .then(results => results.json())
@@ -50,7 +51,7 @@ function ArrivalsList(props) {
                 </div>
             }
 
-            {!result?.length &&
+            {Array.isArray(result) && result.length === 0 &&
                 <div className='mb-2 text-xl flex justify-center'>
                     No arrivals info found
                 </div>
@@ -69,7 +70,7 @@ function ArrivalsList(props) {
                                         <div className="  text-sm  w-60 flex flex-col items-center">
                                             {d.modeName === "bus" &&
                                                 <>
-                                                    <div className="font-plate border border-gray-400 text-xl bg-black rounded p-1 w-10 h-10 mb-1 justify-center flex items-center">{d.lineName}</div>
+                                                    <div className="font-tfl border-2 border-gray-600 text-xl bg-black rounded p-1 w-10 h-10 mb-1 justify-center flex items-center">{d.lineName}</div>
                                                     <div>{d.modeName === "bus" && <NumberPlate registration={d.vehicleId} />}</div>
                                                 </>
                                             }
